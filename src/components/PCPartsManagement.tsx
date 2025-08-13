@@ -7,8 +7,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import { Search, Plus, Upload, Download, Edit, Trash2, Menu, ChevronDown } from 'lucide-react';
+import { Search, Plus, Upload, Download, Edit, Trash2, Menu, ChevronDown, Home, Ticket, User, Building, Archive, BarChart3 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 interface PCPart {
   id: string;
@@ -300,65 +301,107 @@ export default function PCPartsManagement() {
     </Dialog>
   );
 
+  const navigationItems = [
+    { icon: Home, label: "HOME" },
+    { icon: Ticket, label: "TICKET" },
+    { icon: User, label: "USER" },
+    { icon: Building, label: "DEPARTMENT" },
+    { icon: Archive, label: "CATEGORY" },
+    { icon: Archive, label: "SUB-CATEGORY" },
+    { icon: Archive, label: "ASSET" },
+    { icon: BarChart3, label: "REPORTS" },
+  ];
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gray-100">
       {/* Header */}
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Menu className="h-6 w-6 text-gray-600" />
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="sm" className="p-0">
+                  <Menu className="h-6 w-6 text-gray-600" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-80 p-0">
+                <div className="bg-white h-full">
+                  <div className="p-4 border-b border-gray-200">
+                    <h2 className="font-semibold text-gray-700">Navigation</h2>
+                  </div>
+                  <div className="p-0">
+                    {navigationItems.map((item, index) => (
+                      <div key={index} className="border-b border-gray-200">
+                        <button className="w-full flex items-center gap-3 px-6 py-4 text-left hover:bg-gray-50 transition-colors">
+                          <item.icon className="h-5 w-5 text-gray-600" />
+                          <span className="text-gray-700 font-medium">{item.label}</span>
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
             <div className="text-xl font-semibold text-primary">JATS</div>
           </div>
           <div className="text-sm text-gray-600">Asset Management</div>
         </div>
       </div>
 
-      <div className="p-6">
-        <Card>
-          <CardHeader className="pb-4">
-            <CardTitle className="text-lg font-semibold text-gray-700">PC PARTS MANAGEMENT</CardTitle>
-            
-            {/* Filters */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-              <div>
-                <Label className="text-sm font-medium text-gray-600">FILTER BY DEPARTMENT</Label>
-                <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
-                  <SelectTrigger className="mt-1">
-                    <SelectValue placeholder="All Departments" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Departments</SelectItem>
-                    {departments.map(dept => (
-                      <SelectItem key={dept} value={dept}>{dept}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div>
-                <Label className="text-sm font-medium text-gray-600">FILTER BY CATEGORY</Label>
-                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger className="mt-1">
-                    <SelectValue placeholder="All Categories" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Categories</SelectItem>
-                    {categories.map(cat => (
-                      <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+      <div className="flex">
+        {/* Left Sidebar */}
+        <div className="w-72 bg-gray-100 p-6">
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-xl font-bold text-gray-700 mb-4">PC PARTS</h2>
+              <p className="text-gray-600 mb-6">MANAGEMENT</p>
             </div>
-          </CardHeader>
 
-          <CardContent>
+            <div>
+              <Label className="text-sm font-semibold text-gray-700 mb-2 block">FILTER BY DEPARTMENT</Label>
+              <p className="text-xs text-gray-500 mb-2">Select Department:</p>
+              <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
+                <SelectTrigger className="bg-white">
+                  <SelectValue placeholder="All Departments" />
+                  <ChevronDown className="h-4 w-4" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Departments</SelectItem>
+                  {departments.map(dept => (
+                    <SelectItem key={dept} value={dept}>{dept}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label className="text-sm font-semibold text-gray-700 mb-2 block">FILTER BY CATEGORY:</Label>
+              <p className="text-xs text-gray-500 mb-2">Select Category:</p>
+              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                <SelectTrigger className="bg-white">
+                  <SelectValue placeholder="All Categories" />
+                  <ChevronDown className="h-4 w-4" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Categories</SelectItem>
+                  {categories.map(cat => (
+                    <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1 p-6">
+          <div className="bg-white border-2 border-primary rounded-lg p-6">
             {/* Action Buttons */}
-            <div className="flex flex-wrap gap-2 mb-6">
+            <div className="flex flex-wrap gap-4 mb-6">
               <div className="relative flex-1 max-w-md">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <Input
-                  placeholder="Search parts..."
+                  placeholder="Search..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
@@ -406,7 +449,7 @@ export default function PCPartsManagement() {
                       <td className="py-3 px-4 text-sm">{part.itemCode}</td>
                       <td className="py-3 px-4 text-sm font-medium">{part.partName}</td>
                       <td className="py-3 px-4 text-sm">{part.description}</td>
-                      <td className="py-3 px-4 text-sm">₱{part.unitPrice.toLocaleString()}</td>
+                      <td className="py-3 px-4 text-sm">{part.unitPrice.toLocaleString()}</td>
                       <td className="py-3 px-4 text-sm">{part.ticketCount}</td>
                       <td className="py-3 px-4 text-sm">
                         <div className="flex gap-2">
@@ -441,8 +484,8 @@ export default function PCPartsManagement() {
                 DOWNLOAD TEMPLATE
               </Button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
       {/* Add Modal */}
