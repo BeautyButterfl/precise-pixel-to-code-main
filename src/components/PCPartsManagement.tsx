@@ -357,7 +357,7 @@ export default function PCPartsManagement() {
               <p className="text-gray-600 mb-6">MANAGEMENT</p>
             </div>
 
-            <div>
+            <div className="bg-white p-4 rounded-lg border border-gray-200">
               <Label className="text-sm font-semibold text-gray-700 mb-2 block">FILTER BY DEPARTMENT</Label>
               <p className="text-xs text-gray-500 mb-2">Select Department:</p>
               <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
@@ -374,7 +374,7 @@ export default function PCPartsManagement() {
               </Select>
             </div>
 
-            <div>
+            <div className="bg-white p-4 rounded-lg border border-gray-200">
               <Label className="text-sm font-semibold text-gray-700 mb-2 block">FILTER BY CATEGORY:</Label>
               <p className="text-xs text-gray-500 mb-2">Select Category:</p>
               <Select value={selectedCategory} onValueChange={setSelectedCategory}>
