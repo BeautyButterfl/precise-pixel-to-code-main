@@ -43,8 +43,8 @@ const categories = ['CPU', 'GPU', 'RAM', 'Storage', 'Motherboard'];
 
 export default function PCPartsManagement() {
   const [parts, setParts] = useState<PCPart[]>(initialParts);
-  const [selectedDepartment, setSelectedDepartment] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedDepartment, setSelectedDepartment] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingPart, setEditingPart] = useState<PCPart | null>(null);
@@ -162,7 +162,7 @@ export default function PCPartsManagement() {
   };
 
   const filteredParts = parts.filter(part => {
-    const matchesDepartment = !selectedDepartment || part.department === selectedDepartment;
+    const matchesDepartment = !selectedDepartment || selectedDepartment === 'all' || part.department === selectedDepartment;
     const matchesSearch = !searchTerm || 
       part.partName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       part.itemCode.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -327,7 +327,7 @@ export default function PCPartsManagement() {
                     <SelectValue placeholder="All Departments" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Departments</SelectItem>
+                    <SelectItem value="all">All Departments</SelectItem>
                     {departments.map(dept => (
                       <SelectItem key={dept} value={dept}>{dept}</SelectItem>
                     ))}
@@ -342,7 +342,7 @@ export default function PCPartsManagement() {
                     <SelectValue placeholder="All Categories" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Categories</SelectItem>
+                    <SelectItem value="all">All Categories</SelectItem>
                     {categories.map(cat => (
                       <SelectItem key={cat} value={cat}>{cat}</SelectItem>
                     ))}
