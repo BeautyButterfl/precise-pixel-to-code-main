@@ -313,57 +313,23 @@ export default function PCPartsManagement() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="sm" className="p-0">
-                  <Menu className="h-6 w-6 text-gray-600" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="w-80 p-0">
-                <div className="bg-white h-full">
-                  <div className="p-4 border-b border-gray-200">
-                    <h2 className="font-semibold text-gray-700">Navigation</h2>
-                  </div>
-                  <div className="p-0">
-                    {navigationItems.map((item, index) => (
-                      <div key={index} className="border-b border-gray-200">
-                        <button className="w-full flex items-center gap-3 px-6 py-4 text-left hover:bg-gray-50 transition-colors">
-                          <item.icon className="h-5 w-5 text-gray-600" />
-                          <span className="text-gray-700 font-medium">{item.label}</span>
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </SheetContent>
-            </Sheet>
-            <div className="text-xl font-semibold text-primary">JATS</div>
-          </div>
-          <div className="text-sm text-gray-600">Asset Management</div>
-        </div>
-      </div>
-
+    <div className="min-h-screen bg-gray-50">
       <div className="flex">
         {/* Left Sidebar */}
-        <div className="w-72 bg-gray-100 p-6">
+        <div className="w-80 bg-white p-6 min-h-screen border-r border-gray-200">
           <div className="space-y-6">
             <div>
-              <h2 className="text-xl font-bold text-gray-700 mb-4">PC PARTS</h2>
-              <p className="text-gray-600 mb-6">MANAGEMENT</p>
+              <h1 className="text-4xl font-bold text-gray-800 mb-2">ASSET</h1>
+              <h2 className="text-4xl font-bold text-gray-800">MANAGEMENT</h2>
             </div>
 
-            <div className="bg-white p-4 rounded-lg border border-gray-200">
-              <Label className="text-sm font-semibold text-gray-700 mb-2 block">FILTER BY DEPARTMENT</Label>
-              <p className="text-xs text-gray-500 mb-2">Select Department:</p>
+            <div className="bg-white p-4 rounded-lg border border-gray-300 shadow-sm">
+              <h3 className="text-lg font-semibold text-gray-800 mb-3">FILTER BY DEPARTMENT</h3>
+              <p className="text-sm text-gray-600 mb-3">Select Department:</p>
               <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
-                <SelectTrigger className="bg-white">
+                <SelectTrigger className="bg-gray-50 border-gray-300 h-12">
                   <SelectValue placeholder="All Departments" />
-                  <ChevronDown className="h-4 w-4" />
+                  <ChevronDown className="h-5 w-5 text-blue-600" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Departments</SelectItem>
@@ -374,13 +340,13 @@ export default function PCPartsManagement() {
               </Select>
             </div>
 
-            <div className="bg-white p-4 rounded-lg border border-gray-200">
-              <Label className="text-sm font-semibold text-gray-700 mb-2 block">FILTER BY CATEGORY:</Label>
-              <p className="text-xs text-gray-500 mb-2">Select Category:</p>
+            <div className="bg-white p-4 rounded-lg border border-gray-300 shadow-sm">
+              <h3 className="text-lg font-semibold text-gray-800 mb-3">FILTER BY CATEGORY:</h3>
+              <p className="text-sm text-gray-600 mb-3">Select Category:</p>
               <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger className="bg-white">
+                <SelectTrigger className="bg-gray-50 border-gray-300 h-12">
                   <SelectValue placeholder="All Categories" />
-                  <ChevronDown className="h-4 w-4" />
+                  <ChevronDown className="h-5 w-5 text-blue-600" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Categories</SelectItem>
@@ -394,96 +360,91 @@ export default function PCPartsManagement() {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 p-6">
-          <div className="bg-white border-2 border-primary rounded-lg p-6">
-            {/* Action Buttons */}
-            <div className="flex flex-wrap gap-4 mb-6">
-              <div className="relative flex-1 max-w-md">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <Input
-                  placeholder="Search..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
+        <div className="flex-1 p-8 bg-gray-50">
+          {/* Top Actions */}
+          <div className="flex items-center justify-between mb-8">
+            <div className="relative max-w-md">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white" />
+              <Input
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-12 h-12 bg-blue-600 border-blue-600 text-white placeholder-blue-200"
+              />
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-blue-700 rounded p-1">
+                <Search className="h-4 w-4 text-white" />
               </div>
-              
+            </div>
+            
+            <div className="flex gap-4">
               <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
                 <DialogTrigger asChild>
-                  <Button className="bg-primary text-white hover:bg-primary/90">
+                  <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 h-12">
                     <Plus className="h-4 w-4 mr-2" />
                     ADD
                   </Button>
                 </DialogTrigger>
               </Dialog>
 
-              <Button variant="outline" className="border-primary text-primary hover:bg-primary/5">
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 h-12">
                 <Upload className="h-4 w-4 mr-2" />
                 BULK UPLOAD
               </Button>
               
-              <Button variant="outline" className="border-primary text-primary hover:bg-primary/5">
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 h-12">
                 <Download className="h-4 w-4 mr-2" />
                 EXPORT
               </Button>
             </div>
+          </div>
 
-            {/* Table */}
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-gray-200">
-                    <th className="text-left py-3 px-4 font-medium text-gray-600 text-sm">DEPARTMENT</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-600 text-sm">ITEM CODE</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-600 text-sm">PART NAME</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-600 text-sm">DESCRIPTION</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-600 text-sm">UNIT PRICE</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-600 text-sm">TICKET COUNT</th>
-                    <th className="text-left py-3 px-4 font-medium text-gray-600 text-sm">ACTIONS</th>
+          {/* Table */}
+          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <table className="w-full">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="text-left py-4 px-6 font-semibold text-gray-700 border-b border-gray-200">ITEM CODE</th>
+                  <th className="text-left py-4 px-6 font-semibold text-gray-700 border-b border-gray-200">DEPARTMENT</th>
+                  <th className="text-left py-4 px-6 font-semibold text-gray-700 border-b border-gray-200">CATEGORY</th>
+                  <th className="text-left py-4 px-6 font-semibold text-gray-700 border-b border-gray-200">DESCRIPTION</th>
+                  <th className="text-left py-4 px-6 font-semibold text-gray-700 border-b border-gray-200">UNIT PRICE</th>
+                  <th className="text-left py-4 px-6 font-semibold text-gray-700 border-b border-gray-200">TICKET COUNT</th>
+                  <th className="text-left py-4 px-6 font-semibold text-gray-700 border-b border-gray-200">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredParts.map((part, index) => (
+                  <tr key={part.id} className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                    <td className="py-4 px-6 text-gray-900 border-b border-gray-100">{part.itemCode}</td>
+                    <td className="py-4 px-6 text-gray-700 border-b border-gray-100">{part.department}</td>
+                    <td className="py-4 px-6 text-gray-700 border-b border-gray-100">Hardware-PC Unit</td>
+                    <td className="py-4 px-6 text-gray-700 border-b border-gray-100">{part.description}</td>
+                    <td className="py-4 px-6 text-gray-700 border-b border-gray-100">{part.unitPrice.toLocaleString()}</td>
+                    <td className="py-4 px-6 text-gray-700 border-b border-gray-100">{part.ticketCount}</td>
+                    <td className="py-4 px-6 border-b border-gray-100">
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => openEditModal(part)}
+                          className="h-8 w-8 p-0 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => deletePart(part.id)}
+                          className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {filteredParts.map((part) => (
-                    <tr key={part.id} className="border-b border-gray-100 hover:bg-gray-50">
-                      <td className="py-3 px-4 text-sm">{part.department}</td>
-                      <td className="py-3 px-4 text-sm">{part.itemCode}</td>
-                      <td className="py-3 px-4 text-sm font-medium">{part.partName}</td>
-                      <td className="py-3 px-4 text-sm">{part.description}</td>
-                      <td className="py-3 px-4 text-sm">{part.unitPrice.toLocaleString()}</td>
-                      <td className="py-3 px-4 text-sm">{part.ticketCount}</td>
-                      <td className="py-3 px-4 text-sm">
-                        <div className="flex gap-2">
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => openEditModal(part)}
-                            className="h-8 w-8 p-0"
-                          >
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => deletePart(part.id)}
-                            className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            {/* Download Template Button */}
-            <div className="flex justify-end mt-6">
-              <Button className="bg-primary text-white hover:bg-primary/90">
-                <Download className="h-4 w-4 mr-2" />
-                DOWNLOAD TEMPLATE
-              </Button>
-            </div>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
