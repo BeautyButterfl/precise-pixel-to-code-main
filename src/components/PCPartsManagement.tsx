@@ -319,7 +319,7 @@ export default function PCPartsManagement() {
         <div className="w-80 bg-white p-6 min-h-screen border-r border-gray-200">
           <div className="space-y-6">
             <div>
-              <h1 className="text-4xl font-bold text-gray-800 mb-2">ASSET</h1>
+              <h1 className="text-4xl font-bold text-gray-800 mb-2">PC PARTS</h1>
               <h2 className="text-4xl font-bold text-gray-800">MANAGEMENT</h2>
             </div>
 
