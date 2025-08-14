@@ -52,6 +52,62 @@ export default function PCPartsManagement() {
   const [searchTerm, setSearchTerm] = useState('');
   const { toast } = useToast();
 
+  const handleBulkUpload = () => {
+    // Create file input element
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.xlsx,.xls,.csv';
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        toast({
+          title: "File uploaded",
+          description: `Selected file: ${file.name}`,
+        });
+      }
+    };
+    input.click();
+  };
+
+  const handleDownloadTemplate = () => {
+    // Create a simple CSV template
+    const csvContent = "Department,Item Code,Part Name,Description,Unit Price,Date Acquired,Serial Number,Supplier\nCashier,ConnecticutF,Ryzen 5 5600X,Desktop Processor,6500,2023-01-15,RY-AMD-5600X,PCWorld";
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'pc_parts_template.csv';
+    a.click();
+    window.URL.revokeObjectURL(url);
+    
+    toast({
+      title: "Template downloaded",
+      description: "PC Parts template has been downloaded",
+    });
+  };
+
+  const handleExport = () => {
+    // Convert current data to CSV
+    const headers = "Department,Item Code,Part Name,Description,Unit Price,Date Acquired,Serial Number,Supplier";
+    const csvData = parts.map(part => 
+      `${part.department},${part.itemCode},${part.partName},${part.description},${part.unitPrice},${part.dateAcquired},${part.serialNumber},${part.supplier}`
+    ).join('\n');
+    
+    const csvContent = headers + '\n' + csvData;
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'pc_parts_export.csv';
+    a.click();
+    window.URL.revokeObjectURL(url);
+    
+    toast({
+      title: "Data exported",
+      description: "PC Parts data has been exported successfully",
+    });
+  };
+
   const [formData, setFormData] = useState({
     department: '',
     itemCode: '',
@@ -364,15 +420,15 @@ export default function PCPartsManagement() {
           {/* Top Actions */}
           <div className="flex items-center justify-between mb-8">
             <div className="relative max-w-md">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
               <Input
                 placeholder="Search..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-12 h-12 bg-blue-600 border-blue-600 text-white placeholder-blue-200"
+                className="pl-12 h-12 bg-white border-gray-300 text-gray-900 placeholder-gray-400"
               />
-              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-blue-700 rounded p-1">
-                <Search className="h-4 w-4 text-white" />
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 bg-gray-100 rounded p-1">
+                <Search className="h-4 w-4 text-gray-600" />
               </div>
             </div>
             
@@ -386,12 +442,26 @@ export default function PCPartsManagement() {
                 </DialogTrigger>
               </Dialog>
 
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 h-12">
+              <Button 
+                onClick={handleBulkUpload}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 h-12"
+              >
                 <Upload className="h-4 w-4 mr-2" />
                 BULK UPLOAD
               </Button>
+
+              <Button 
+                onClick={handleDownloadTemplate}
+                className="bg-gray-600 hover:bg-gray-700 text-white px-6 h-12"
+              >
+                <Download className="h-4 w-4 mr-2" />
+                DOWNLOAD TEMPLATE
+              </Button>
               
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 h-12">
+              <Button 
+                onClick={handleExport}
+                className="bg-green-600 hover:bg-green-700 text-white px-6 h-12"
+              >
                 <Download className="h-4 w-4 mr-2" />
                 EXPORT
               </Button>
