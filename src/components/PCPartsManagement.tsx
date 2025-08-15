@@ -119,6 +119,10 @@ export default function PCPartsManagement() {
     supplier: ''
   });
 
+  const updateFormField = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
   const handleAddPart = () => {
     if (!formData.department || !formData.itemCode || !formData.partName) {
       toast({
@@ -246,7 +250,7 @@ export default function PCPartsManagement() {
         <div className="space-y-4">
           <div>
             <Label htmlFor="department" className="text-sm font-medium">SELECT DEPARTMENT</Label>
-            <Select value={formData.department} onValueChange={(value) => setFormData({...formData, department: value})}>
+            <Select value={formData.department} onValueChange={(value) => updateFormField('department', value)}>
               <SelectTrigger className="mt-1">
                 <SelectValue placeholder="Cashier" />
               </SelectTrigger>
@@ -260,7 +264,7 @@ export default function PCPartsManagement() {
 
           <div>
             <Label htmlFor="itemCode" className="text-sm font-medium">SELECT ITEM CODE</Label>
-            <Select value={formData.itemCode} onValueChange={(value) => setFormData({...formData, itemCode: value})}>
+            <Select value={formData.itemCode} onValueChange={(value) => updateFormField('itemCode', value)}>
               <SelectTrigger className="mt-1">
                 <SelectValue placeholder="ConnecticutF" />
               </SelectTrigger>
@@ -278,9 +282,10 @@ export default function PCPartsManagement() {
               <Input
                 id="partName"
                 value={formData.partName}
-                onChange={(e) => setFormData({...formData, partName: e.target.value})}
+                onChange={(e) => updateFormField('partName', e.target.value)}
                 placeholder="Ex. Ryzen 5 5600X"
                 className="mt-1"
+                autoComplete="off"
               />
             </div>
             <div>
@@ -289,7 +294,7 @@ export default function PCPartsManagement() {
                 id="dateAcquired"
                 type="date"
                 value={formData.dateAcquired}
-                onChange={(e) => setFormData({...formData, dateAcquired: e.target.value})}
+                onChange={(e) => updateFormField('dateAcquired', e.target.value)}
                 className="mt-1"
               />
             </div>
@@ -301,9 +306,10 @@ export default function PCPartsManagement() {
               <Input
                 id="serialNumber"
                 value={formData.serialNumber}
-                onChange={(e) => setFormData({...formData, serialNumber: e.target.value})}
-                placeholder="Ex. Ryzen 5 5600X"
+                onChange={(e) => updateFormField('serialNumber', e.target.value)}
+                placeholder="Ex. RY-AMD-5600X"
                 className="mt-1"
+                autoComplete="off"
               />
             </div>
             <div>
@@ -312,9 +318,10 @@ export default function PCPartsManagement() {
                 id="unitPrice"
                 type="number"
                 value={formData.unitPrice}
-                onChange={(e) => setFormData({...formData, unitPrice: e.target.value})}
+                onChange={(e) => updateFormField('unitPrice', e.target.value)}
                 placeholder="Ex. 6500"
                 className="mt-1"
+                autoComplete="off"
               />
             </div>
           </div>
@@ -325,9 +332,10 @@ export default function PCPartsManagement() {
               <Input
                 id="description"
                 value={formData.description}
-                onChange={(e) => setFormData({...formData, description: e.target.value})}
+                onChange={(e) => updateFormField('description', e.target.value)}
                 placeholder="Ex. Desktop Processor"
                 className="mt-1"
+                autoComplete="off"
               />
             </div>
             <div>
@@ -335,9 +343,10 @@ export default function PCPartsManagement() {
               <Input
                 id="supplier"
                 value={formData.supplier}
-                onChange={(e) => setFormData({...formData, supplier: e.target.value})}
+                onChange={(e) => updateFormField('supplier', e.target.value)}
                 placeholder="Ex. PCWorld"
                 className="mt-1"
+                autoComplete="off"
               />
             </div>
           </div>
