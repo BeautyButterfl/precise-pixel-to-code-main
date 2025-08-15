@@ -249,7 +249,6 @@ export default function PCPartsManagement() {
             <Select value={formData.department} onValueChange={(value) => setFormData({...formData, department: value})}>
               <SelectTrigger className="mt-1">
                 <SelectValue placeholder="Cashier" />
-                <ChevronDown className="h-4 w-4" />
               </SelectTrigger>
               <SelectContent>
                 {departments.map(dept => (
@@ -264,7 +263,6 @@ export default function PCPartsManagement() {
             <Select value={formData.itemCode} onValueChange={(value) => setFormData({...formData, itemCode: value})}>
               <SelectTrigger className="mt-1">
                 <SelectValue placeholder="ConnecticutF" />
-                <ChevronDown className="h-4 w-4" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="ConnecticutF">ConnecticutF</SelectItem>
@@ -385,7 +383,6 @@ export default function PCPartsManagement() {
               <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
                 <SelectTrigger className="bg-gray-50 border-gray-300 h-12">
                   <SelectValue placeholder="All Departments" />
-                  <ChevronDown className="h-5 w-5 text-blue-600" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Departments</SelectItem>
@@ -402,7 +399,6 @@ export default function PCPartsManagement() {
               <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                 <SelectTrigger className="bg-gray-50 border-gray-300 h-12">
                   <SelectValue placeholder="All Categories" />
-                  <ChevronDown className="h-5 w-5 text-blue-600" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Categories</SelectItem>
