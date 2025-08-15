@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Search, Plus, Upload, Download, Edit, Trash2, Menu, ChevronDown, Home, Ticket, User, Building, Archive, BarChart3 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { FormModal } from './FormModal';
 
 interface PCPart {
   id: string;
@@ -119,9 +120,9 @@ export default function PCPartsManagement() {
     supplier: ''
   });
 
-  const updateFormField = (field: string, value: string) => {
+  const updateFormField = useCallback((field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-  };
+  }, []);
 
   const handleAddPart = () => {
     if (!formData.department || !formData.itemCode || !formData.partName) {
@@ -148,16 +149,7 @@ export default function PCPartsManagement() {
 
     setParts([...parts, newPart]);
     setIsAddModalOpen(false);
-    setFormData({
-      department: '',
-      itemCode: '',
-      partName: '',
-      description: '',
-      unitPrice: '',
-      dateAcquired: '',
-      serialNumber: '',
-      supplier: ''
-    });
+    resetForm();
 
     toast({
       title: "Success",
@@ -231,138 +223,18 @@ export default function PCPartsManagement() {
     return matchesDepartment && matchesSearch;
   });
 
-  const FormModal = ({ 
-    isOpen, 
-    onClose, 
-    onSubmit, 
-    title 
-  }: { 
-    isOpen: boolean; 
-    onClose: () => void; 
-    onSubmit: () => void; 
-    title: string;
-  }) => (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md">
-        <DialogHeader>
-          <DialogTitle className="text-gray-600 font-medium">{title}</DialogTitle>
-        </DialogHeader>
-        <div className="space-y-4">
-          <div>
-            <Label htmlFor="department" className="text-sm font-medium">SELECT DEPARTMENT</Label>
-            <Select value={formData.department} onValueChange={(value) => updateFormField('department', value)}>
-              <SelectTrigger className="mt-1">
-                <SelectValue placeholder="Cashier" />
-              </SelectTrigger>
-              <SelectContent>
-                {departments.map(dept => (
-                  <SelectItem key={dept} value={dept}>{dept}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div>
-            <Label htmlFor="itemCode" className="text-sm font-medium">SELECT ITEM CODE</Label>
-            <Select value={formData.itemCode} onValueChange={(value) => updateFormField('itemCode', value)}>
-              <SelectTrigger className="mt-1">
-                <SelectValue placeholder="ConnecticutF" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="ConnecticutF">ConnecticutF</SelectItem>
-                <SelectItem value="MassachusettsG">MassachusettsG</SelectItem>
-                <SelectItem value="NewYorkH">NewYorkH</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="partName" className="text-sm font-medium">PART NAME</Label>
-              <Input
-                id="partName"
-                value={formData.partName}
-                onChange={(e) => updateFormField('partName', e.target.value)}
-                placeholder="Ex. Ryzen 5 5600X"
-                className="mt-1"
-                autoComplete="off"
-              />
-            </div>
-            <div>
-              <Label htmlFor="dateAcquired" className="text-sm font-medium">DATE ACQUIRED</Label>
-              <Input
-                id="dateAcquired"
-                type="date"
-                value={formData.dateAcquired}
-                onChange={(e) => updateFormField('dateAcquired', e.target.value)}
-                className="mt-1"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="serialNumber" className="text-sm font-medium">SERIAL NUMBER</Label>
-              <Input
-                id="serialNumber"
-                value={formData.serialNumber}
-                onChange={(e) => updateFormField('serialNumber', e.target.value)}
-                placeholder="Ex. RY-AMD-5600X"
-                className="mt-1"
-                autoComplete="off"
-              />
-            </div>
-            <div>
-              <Label htmlFor="unitPrice" className="text-sm font-medium">UNIT PRICE</Label>
-              <Input
-                id="unitPrice"
-                type="number"
-                value={formData.unitPrice}
-                onChange={(e) => updateFormField('unitPrice', e.target.value)}
-                placeholder="Ex. 6500"
-                className="mt-1"
-                autoComplete="off"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="description" className="text-sm font-medium">DESCRIPTION</Label>
-              <Input
-                id="description"
-                value={formData.description}
-                onChange={(e) => updateFormField('description', e.target.value)}
-                placeholder="Ex. Desktop Processor"
-                className="mt-1"
-                autoComplete="off"
-              />
-            </div>
-            <div>
-              <Label htmlFor="supplier" className="text-sm font-medium">SUPPLIER</Label>
-              <Input
-                id="supplier"
-                value={formData.supplier}
-                onChange={(e) => updateFormField('supplier', e.target.value)}
-                placeholder="Ex. PCWorld"
-                className="mt-1"
-                autoComplete="off"
-              />
-            </div>
-          </div>
-
-          <div className="flex justify-end gap-2 pt-4">
-            <Button variant="outline" onClick={onClose}>
-              CANCEL
-            </Button>
-            <Button onClick={onSubmit} className="bg-primary text-white hover:bg-primary/90">
-              CONFIRM
-            </Button>
-          </div>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
+  const resetForm = useCallback(() => {
+    setFormData({
+      department: '',
+      itemCode: '',
+      partName: '',
+      description: '',
+      unitPrice: '',
+      dateAcquired: '',
+      serialNumber: '',
+      supplier: ''
+    });
+  }, []);
 
   const navigationItems = [
     { icon: Home, label: "HOME" },
@@ -438,14 +310,13 @@ export default function PCPartsManagement() {
             </div>
             
             <div className="flex gap-4">
-              <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
-                <DialogTrigger asChild>
-                  <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 h-12">
-                    <Plus className="h-4 w-4 mr-2" />
-                    ADD
-                  </Button>
-                </DialogTrigger>
-              </Dialog>
+              <Button 
+                onClick={() => setIsAddModalOpen(true)}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 h-12"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                ADD
+              </Button>
 
               <Button 
                 onClick={handleBulkUpload}
@@ -530,6 +401,9 @@ export default function PCPartsManagement() {
         onClose={() => setIsAddModalOpen(false)}
         onSubmit={handleAddPart}
         title="ADD PC PART"
+        formData={formData}
+        updateFormField={updateFormField}
+        departments={departments}
       />
 
       {/* Edit Modal */}
@@ -538,6 +412,9 @@ export default function PCPartsManagement() {
         onClose={() => setIsEditModalOpen(false)}
         onSubmit={handleEditPart}
         title="EDIT PC PART"
+        formData={formData}
+        updateFormField={updateFormField}
+        departments={departments}
       />
     </div>
   );
